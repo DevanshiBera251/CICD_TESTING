@@ -66,9 +66,9 @@ jobs:
             env:
               SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
               SF_USERNAME: ${{ secrets.SF_USERNAME }}
-              SF_UAT_ROLE: ${{ secrets.UAT_ROLE_ROLE }}
+              SF_UAT_ROLE: ${{ secrets.UAT_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
-              SF_UAT_DB: ${{ secrets.UAT_DB_DB }}
+              SF_UAT_DB: ${{ secrets.UAT_DB }}
               SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
             run: |
               echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
