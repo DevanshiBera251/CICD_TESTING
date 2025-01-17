@@ -1,0 +1,114 @@
+
+name: 3CLife-devops-demo
+
+# Controls when the action will run. 
+on:
+  pull_request:
+   branches:
+    - "DEV"
+    - "PROD"
+    - "UAT"
+   types: [closed]   
+   paths:
+      - 'migrations/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+
+jobs:
+     dev:
+        name: DEV
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/DEV'
+        steps:
+          # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+          - name: Checkout repository
+            uses: actions/checkout@v2
+    
+          - name: Use Python 3.8.x
+            uses: actions/setup-python@v2.2.1
+            with:
+              python-version: 3.8.x
+    
+          - name: Run schemachange
+          
+            env:
+              SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+              SF_USERNAME: ${{ secrets.SF_USERNAME }}
+              SF_DEV_ROLE: ${{ secrets.DEV_ROLE }}
+              SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+              SF_DEV_DB: ${{ secrets.DEV_DB }}
+              SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
+            run: |
+              echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+              python --version
+              echo "Step 1: Installing schemachange"
+              pip install schemachange==3.7.0
+              
+              echo "Step 2: Running schemachange"
+              schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_DEV_ROLE -w $SF_WAREHOUSE -d $SF_DEV_DB -c $SF_DEV_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":"_DEV"}'
+                                                        
+     dev1:
+        name: UAT
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/UAT'
+        steps:
+          # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+          - name: Checkout repository
+            uses: actions/checkout@v2
+    
+          - name: Use Python 3.8.x
+            uses: actions/setup-python@v2.2.1
+            with:
+              python-version: 3.8.x
+    
+          - name: Run schemachange
+          
+            env:
+              SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+              SF_USERNAME: ${{ secrets.SF_USERNAME }}
+              SF_UAT_ROLE: ${{ secrets.UAT_ROLE }}
+              SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+              SF_UAT_DB: ${{ secrets.UAT_DB }}
+              SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
+            run: |
+              echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+              python --version
+              echo "Step 1: Installing schemachange"
+              pip install schemachange==3.7.0
+              
+              echo "Step 2: Running schemachange"
+              schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_UAT_ROLE -w $SF_WAREHOUSE -d $SF_UAT_DB -c $SF_UAT_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":"_UAT"}'
+                                                        
+    
+     dev2:
+        name: PROD 
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/PROD'
+        steps:
+          # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+          - name: Checkout repository
+            uses: actions/checkout@v2
+    
+          - name: Use Python 3.8.x
+            uses: actions/setup-python@v2.2.1
+            with:
+              python-version: 3.8.x
+    
+          - name: Run schemachange
+            env:
+             SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
+             SF_USERNAME: ${{ secrets.SF_USERNAME }}
+             SF_PROD_ROLE: ${{ secrets.PROD_ROLE }}
+             SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
+             SF_PROD_DB: ${{ secrets.PROD_DB }}
+             SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
+            run: |
+             echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+             python --version
+             echo "Step 1: Installing schemachange"
+             pip install schemachange==3.7.0
+         
+             echo "Step 2: Running schemachange"
+             schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_PROD_ROLE -w $SF_WAREHOUSE -d $SF_PROD_DB -c $SF_PROD_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":"_PROD"}'
+
+    
