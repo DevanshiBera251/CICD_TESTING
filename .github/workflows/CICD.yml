@@ -10,7 +10,7 @@ on:
     - "UAT"
    types: [closed]   
    paths:
-      - 'migrations/**'
+      - 'DATABASE/**'
 
   # Allows you to run this workflow manually from the Actions tab
 
@@ -109,6 +109,6 @@ jobs:
              pip install schemachange==3.7.0
          
              echo "Step 2: Running schemachange"
-             schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_PROD_ROLE -w $SF_WAREHOUSE -d $SF_PROD_DB -c $SF_PROD_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":""}'
+             schemachange -f $GITHUB_WORKSPACE/DATABASE -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_PROD_ROLE -w $SF_WAREHOUSE -d $SF_PROD_DB -c $SF_PROD_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":""}'
 
     
