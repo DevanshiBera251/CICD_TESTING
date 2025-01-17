@@ -32,6 +32,7 @@ jobs:
           - name: Run schemachange
           
             env:
+              SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
               SF_USERNAME: ${{ secrets.SF_USERNAME }}
               SF_DEV_ROLE: ${{ secrets.DEV_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
@@ -63,6 +64,7 @@ jobs:
           - name: Run schemachange
           
             env:
+              SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
               SF_USERNAME: ${{ secrets.SF_USERNAME }}
               SF_UAT_ROLE: ${{ secrets.DEV_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
