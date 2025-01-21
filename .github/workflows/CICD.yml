@@ -15,16 +15,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
 
 jobs:
-      build: 
-        runs-on: ubuntu-latest 
-        steps: 
-          - name: Testing 
-            run: 
-              echo "Just testing"
-      dev:
+     dev:
         name: DEV
         runs-on: ubuntu-latest
-        needs: build
         if: github.ref == 'refs/heads/DEV'
         steps:
           # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -54,9 +47,10 @@ jobs:
               echo "Step 2: Running schemachange"
               schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_DEV_ROLE -w $SF_WAREHOUSE -d $SF_DEV_DB -c $SF_DEV_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":"_DEV"}'
                                                         
-     dev1:
+     uat:
         name: UAT
         runs-on: ubuntu-latest
+        needs: dev
         if: github.ref == 'refs/heads/UAT'
         steps:
           # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -87,7 +81,7 @@ jobs:
               schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_UAT_ROLE -w $SF_WAREHOUSE -d $SF_UAT_DB -c $SF_UAT_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":"_UAT"}'
                                                         
     
-     dev2:
+     prod:
         name: PROD 
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/PROD'
