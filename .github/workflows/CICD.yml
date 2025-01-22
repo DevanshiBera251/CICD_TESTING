@@ -49,7 +49,7 @@ jobs:
             run: |
               echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
               python --version
-              cat ~/.ssh/id_rsa
+              echo $SNOWFLAKE_PRIVATE_KEY_PATH
               echo "Step 1: Installing schemachange"
               pip install schemachange==3.7.0
               
