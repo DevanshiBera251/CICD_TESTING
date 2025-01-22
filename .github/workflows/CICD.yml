@@ -28,15 +28,7 @@ jobs:
             uses: actions/setup-python@v2.2.1
             with:
               python-version: 3.8.x
-          
-          - name: Set up private key file
-            env:
-                PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
-            run: |
-                
-                echo "$PRIVATE_KEY" > /tmp/id_rsa
-                chmod 600 /tmp/id_rsa
-            
+                    
           - name: Run schemachange
             env:
               SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
@@ -44,7 +36,7 @@ jobs:
               SF_DEV_ROLE: ${{ secrets.DEV_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
               SF_DEV_DB: ${{ secrets.DEV_DB }}
-              SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/id_rsa
+              SNOWFLAKE_PRIVATE_KEY_PATH: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
               SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
             run: |
               echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
@@ -74,9 +66,9 @@ jobs:
             env:
                 SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
                 SF_USERNAME: ${{ secrets.SF_USERNAME }}
-                SF_DEV_ROLE: ${{ secrets.DEV_ROLE }}
+                SF_UAT_ROLE: ${{ secrets.UAT_ROLE }}
                 SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
-                SF_DEV_DB: ${{ secrets.DEV_DB }}
+                SF_UAT_DB: ${{ secrets.UAT_DB }}
                 SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
                 SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
             run: |
@@ -108,9 +100,9 @@ jobs:
             env:
               SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
               SF_USERNAME: ${{ secrets.SF_USERNAME }}
-              SF_DEV_ROLE: ${{ secrets.DEV_ROLE }}
+              SF_PROD_ROLE: ${{ secrets.PROD_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
-              SF_DEV_DB: ${{ secrets.DEV_DB }}
+              SF_PROD_DB: ${{ secrets.PROD_DB }}
               SNOWFLAKE_PRIVATE_KEY_PATH: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
               SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
             run: |
