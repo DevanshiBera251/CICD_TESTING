@@ -64,7 +64,12 @@ jobs:
             uses: actions/setup-python@v2.2.1
             with:
               python-version: 3.8.x
-              
+          
+          - name: Decrypt RSA key
+            run: |
+              echo "${{ secrets.SNOWFLAKE_PRIVATE_KEY }}"  > /tmp/key
+              chmod 600 /tmp/key
+
           - name: Run schemachange
             env:
                 SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
@@ -72,7 +77,7 @@ jobs:
                 SF_UAT_ROLE: ${{ secrets.UAT_ROLE }}
                 SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
                 SF_UAT_DB: ${{ secrets.UAT_DB }}
-                SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+                SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/key
                 SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
             run: |
                 echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
@@ -97,7 +102,11 @@ jobs:
             uses: actions/setup-python@v2.2.1
             with:
               python-version: 3.8.x
-    
+          
+          - name: Decrypt RSA key
+            run: |
+              echo "${{ secrets.SNOWFLAKE_PRIVATE_KEY }}"  > /tmp/key
+              chmod 600 /tmp/key
           
           - name: Run schemachange
             env:
@@ -106,7 +115,7 @@ jobs:
               SF_PROD_ROLE: ${{ secrets.PROD_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
               SF_PROD_DB: ${{ secrets.PROD_DB }}
-              SNOWFLAKE_PRIVATE_KEY_PATH: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+              SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/key
               SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
             run: |
                 echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
