@@ -33,9 +33,9 @@ jobs:
             env:
                 PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
             run: |
-                mkdir -p ~/.ssh
-                echo "$PRIVATE_KEY" > ~/.ssh/id_rsa
-                chmod 600 ~/.ssh/id_rsa
+                
+                echo "$PRIVATE_KEY" > /tmp/id_rsa
+                chmod 600 /tmp/id_rsa
             
           - name: Run schemachange
             env:
@@ -44,7 +44,7 @@ jobs:
               SF_DEV_ROLE: ${{ secrets.DEV_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
               SF_DEV_DB: ${{ secrets.DEV_DB }}
-              SNOWFLAKE_PRIVATE_KEY_PATH: ~/.ssh/id_rsa
+              SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/id_rsa
               SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
             run: |
               echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
