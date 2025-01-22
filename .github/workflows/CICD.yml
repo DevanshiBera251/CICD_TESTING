@@ -36,7 +36,7 @@ jobs:
               SF_DEV_ROLE: ${{ secrets.DEV_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
               SF_DEV_DB: ${{ secrets.DEV_DB }}
-              SNOWFLAKE_PRIVATE_KEY_PATH: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+              SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
               SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
             run: |
               echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
