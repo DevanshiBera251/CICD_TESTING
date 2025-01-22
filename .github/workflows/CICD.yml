@@ -28,26 +28,35 @@ jobs:
             uses: actions/setup-python@v2.2.1
             with:
               python-version: 3.8.x
-    
-          - name: Run schemachange
           
+          - name: Set up private key file
+            env:
+                PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+            run: |
+                
+                echo "$PRIVATE_KEY" > /tmp/id_rsa
+                chmod 600 /tmp/id_rsa
+            
+          - name: Run schemachange
             env:
               SF_ACCOUNT: ${{ secrets.SF_ACCOUNT }}
               SF_USERNAME: ${{ secrets.SF_USERNAME }}
               SF_DEV_ROLE: ${{ secrets.DEV_ROLE }}
               SF_WAREHOUSE: ${{ secrets.SF_WAREHOUSE }}
               SF_DEV_DB: ${{ secrets.DEV_DB }}
-              SNOWFLAKE_PASSWORD: ${{ secrets.SF_PASSWORD }}
+              SNOWFLAKE_PRIVATE_KEY_PATH: /tmp/id_rsa
+              SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
             run: |
               echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
               python --version
+              echo $SNOWFLAKE_PRIVATE_KEY_PATH
               echo "Step 1: Installing schemachange"
               pip install schemachange==3.7.0
               
               echo "Step 2: Running schemachange"
               schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_DEV_ROLE -w $SF_WAREHOUSE -d $SF_DEV_DB -c $SF_DEV_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":"_DEV"}'
                                                         
-     dev1:
+     uat:
         name: UAT
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/UAT'
@@ -80,7 +89,7 @@ jobs:
               schemachange -f $GITHUB_WORKSPACE/migrations -a $SF_ACCOUNT -u $SF_USERNAME -r $SF_UAT_ROLE -w $SF_WAREHOUSE -d $SF_UAT_DB -c $SF_UAT_DB.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --vars '{"ENV_SUFFIX":"_UAT"}'
                                                         
     
-     dev2:
+     prod:
         name: PROD 
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/PROD'
