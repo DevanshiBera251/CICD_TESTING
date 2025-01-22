@@ -49,7 +49,7 @@ jobs:
             run: |
               echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
               python --version
-              echo ~/.ssh/id_rsa
+              cat ~/.ssh/id_rsa
               echo "Step 1: Installing schemachange"
               pip install schemachange==3.7.0
               
