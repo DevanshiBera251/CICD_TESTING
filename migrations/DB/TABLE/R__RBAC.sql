@@ -1,6 +1,6 @@
 USE WAREHOUSE COMPUTE_WH;
 --parameter for dev , uat , prod
-set env = concat(replace('_','{{ENV_SUFFIX}}'),'_CICD');
+set env = concat(replace('_','_PROD'),'_CICD');
 -- Modify variables here
 set DATABASE_RAW_NAME = CONCAT('DB_',$env,'_RAW'); /* Set the name of database here*/
 SET DATABASE_HORMONIZED_NAME = CONCAT('DB_',$env, '_HARMONIZED');
