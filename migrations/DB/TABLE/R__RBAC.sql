@@ -6,7 +6,7 @@
 
 USE WAREHOUSE COMPUTE_WH;
 --parameter for dev , uat , prod
-set env = {{ENV_SUFFIX}}
+set env = {{ENV_SUFFIX}};
 -- Modify variables here
 set DATABASE_RAW_NAME = CONCAT('DB',$env,'_RAW1'); /* Set the name of database here*/
 --Database Creation
