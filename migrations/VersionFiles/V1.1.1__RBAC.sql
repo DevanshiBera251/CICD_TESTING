@@ -393,7 +393,6 @@ GRANT ALL ON FUTURE PROCEDURES IN SCHEMA identifier($FAST_SCHEMA) TO ROLE identi
 
 GRANT ALL ON FUTURE PIPES  IN SCHEMA identifier($FAST_SCHEMA) TO ROLE identifier($RAW_FAST_SFULL);
 ------------------------------------------------------------------------------------------------------
-
 --RAW_ILIFE_SFULL
 
 GRANT USAGE ON DATABASE identifier($DATABASE_RAW_NAME) TO ROLE identifier($RAW_ILIFE_SFULL);
